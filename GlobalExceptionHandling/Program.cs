@@ -1,3 +1,4 @@
+using GlobalExceptionHandling.Config;
 using GlobalExceptionHandling.Data;
 using GlobalExceptionHandling.Services;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,8 @@ namespace GlobalExceptionHandling
 
 
             app.MapControllers();
+
+            app.AddGlobalErrorHandler();
 
             app.Run();
         }

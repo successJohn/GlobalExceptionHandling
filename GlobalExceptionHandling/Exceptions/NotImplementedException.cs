@@ -2,7 +2,7 @@
 {
     public class NotImplementedException: Exception
     {
-        public NotImplementedException(string msg): base(msg) { }
+        public NotImplementedException(): base() { }
         
     }
 }

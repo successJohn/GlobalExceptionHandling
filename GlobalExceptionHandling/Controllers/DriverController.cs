@@ -1,12 +1,14 @@
-﻿using GlobalExceptionHandling.Models;
+﻿using GlobalExceptionHandling.Exceptions;
+using GlobalExceptionHandling.Models;
 using GlobalExceptionHandling.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlobalExceptionHandling.Controllers
 {
-    [Route("api/[controller]")]
+   [Route("api/[controller]")]
     [ApiController]
+    
     public class DriverController : ControllerBase
     {
         private readonly IDriverService _driverService;
@@ -18,7 +20,7 @@ namespace GlobalExceptionHandling.Controllers
 
         [HttpGet("DriversList")]
 
-        private  async Task<IActionResult> GetAllDrivers()
+        public async Task<IActionResult> GetAllDrivers()
         {
             var drivers = await _driverService.GetDrivers();
 
@@ -26,7 +28,7 @@ namespace GlobalExceptionHandling.Controllers
         }
 
         [HttpPost]
-        private async Task<IActionResult> AddDrivers(Driver driver)
+        public async Task<IActionResult> AddDrivers(Driver driver)
         {
             var result = await _driverService.AddDriver(driver);
 
@@ -36,19 +38,20 @@ namespace GlobalExceptionHandling.Controllers
 
         [HttpGet("GetDriverById")]
 
-        private async Task<IActionResult> GetDriverById(int id)
+        public async Task<IActionResult> GetDriverById(int id)
         {
             var driver = await _driverService.GetDriverById(id);
             if(driver == null)
             {
-                return NotFound();
+                // triggers global exception handler
+                throw new NotFoundException();
             }
             return Ok(driver);
         }
 
 
         [HttpDelete]
-        private async Task<IActionResult> DeleteDriver(int id)
+        public async Task<IActionResult> DeleteDriver(int id)
         {
             var driver = await _driverService.DeleteDriver(id);
 
